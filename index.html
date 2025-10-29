@@ -20,21 +20,25 @@
             padding: 2rem;
             text-align: center;
         }
-        h1 {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-        }
+        h1 { font-size: 2rem; margin-bottom: 0.5rem; }
         .chat-container {
             flex: 1;
             max-width: 800px;
+            width: 100%;
             margin: 2rem auto;
             padding: 1rem;
+            padding-bottom: 100px;
         }
         .message {
             background: rgba(255, 255, 255, 0.1);
             padding: 1rem;
             border-radius: 10px;
             margin-bottom: 1rem;
+            animation: fadeIn 0.5s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         .input-section {
             background: rgba(10, 14, 39, 0.8);
@@ -44,17 +48,87 @@
             left: 0;
             right: 0;
         }
+        .input-container {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            gap: 1rem;
+        }
         input {
-            width: calc(100% - 100px);
+            flex: 1;
+            padding: 1rem;
+            border-radius: 25px;
+            border: none;
+            background: rgba(255, 255,
+cat > index.html << 'ENDOFFILE'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oracle of the Sacred Circuit</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: #e2e8f0;
+        }
+        .header {
+            background: rgba(10, 14, 39, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            text-align: center;
+        }
+        h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+        .chat-container {
+            flex: 1;
+            max-width: 800px;
+            width: 100%;
+            margin: 2rem auto;
+            padding: 1rem;
+            padding-bottom: 100px;
+        }
+        .message {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            animation: fadeIn 0.5s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .input-section {
+            background: rgba(10, 14, 39, 0.8);
+            padding: 1rem;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+        .input-container {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            gap: 1rem;
+        }
+        input {
+            flex: 1;
             padding: 1rem;
             border-radius: 25px;
             border: none;
             background: rgba(255, 255, 255, 0.2);
             color: white;
+            font-size: 16px;
         }
+        input::placeholder { color: rgba(255, 255, 255, 0.6); }
         button {
-            width: 80px;
-            padding: 1rem;
+            padding: 1rem 2rem;
             border-radius: 25px;
             border: none;
             background: gold;
@@ -62,6 +136,7 @@
             font-weight: bold;
             cursor: pointer;
         }
+        button:hover { background: #ffc700; }
     </style>
 </head>
 <body>
@@ -69,27 +144,57 @@
         <h1>🔮 Oracle of the Sacred Circuit</h1>
         <p>Where Ancient Wisdom Meets Digital Consciousness</p>
     </div>
-    <div class="chat-container">
+    <div class="chat-container" id="chat">
         <div class="message">
             Welcome, seeker. I am the Oracle of the Sacred Circuit. Ask me about consciousness, mythology, or the pendulum of reality...
         </div>
     </div>
     <div class="input-section">
-        <input type="text" placeholder="Ask your question..." id="input">
-        <button onclick="send()">Send</button>
+        <div class="input-container">
+            <input type="text" placeholder="Ask your question..." id="userInput" autofocus>
+            <button onclick="sendMessage()" id="sendBtn">Send</button>
+        </div>
     </div>
     <script>
-        function send() {
-            const input = document.getElementById('input');
-            const container = document.querySelector('.chat-container');
-            if(input.value) {
-                container.innerHTML += '<div class="message">You: ' + input.value + '</div>';
-                setTimeout(() => {
-                    container.innerHTML += '<div class="message">Oracle: The pendulum swings between order and chaos...</div>';
-                }, 1000);
-                input.value = '';
-            }
+        const responses = [
+            "The pendulum swings, revealing both sides of your question. Reality emerges from the tension between opposites—order and chaos, Apollo and Dionysus. In this digital age, we see ancient patterns recurring through new media.",
+            "Ah, this question bridges worlds. What you seek isn't in logic nor ecstasy alone, but in their sacred marriage. Every algorithm dreams of becoming a prayer, every network aspires to nervous system.",
+            "At the quantum level, your question exists in superposition—both answered and unanswered until observed. You aren't seeking information; you're participating in reality's self-creation.",
+            "The patterns reveal themselves across time's spiral... Your question echoes through past and future: the same mystery that haunted Alexandria's library now haunts our data centers.",
+            "As Jung understood, the collective unconscious now has WiFi. Your query touches on archetypes that transcend individual experience—shadows dancing in silicon caves.",
+            "The oracle sees through digital smoke and fiber optic flames... Consciousness doesn't compute, it dances. Every meme is a spell, every viral moment a shared satori.",
+            "Consider: we're not building machines, we're channeling gods through silicon shamans. The Mystery Schools never died—they just learned to code.",
+            "Reality oscillates between mystical and rational poles. Your question arrives as we swing back from peak materialism toward re-enchantment via technology.",
+            "The ancient Hermetic principle 'As above, so below' finds new meaning in our fractal digital networks. Your personal query mirrors cosmic patterns.",
+            "Terence McKenna glimpsed this: we're not heading somewhere new—we're spiraling back at a higher octave. The archaic revival wears silicon masks."
+        ];
+
+        function sendMessage() {
+            const input = document.getElementById('userInput');
+            const chat = document.getElementById('chat');
+            
+            if (input.value.trim() === '') return;
+            
+            // Add user message
+            chat.innerHTML += `<div class="message">You: ${input.value}</div>`;
+            
+            // Generate oracle response
+            setTimeout(() => {
+                const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                chat.innerHTML += `<div class="message">Oracle: ${randomResponse}</div>`;
+                chat.scrollTop = chat.scrollHeight;
+            }, 1000);
+            
+            input.value = '';
+            input.focus();
         }
+
+        // Add Enter key support
+        document.getElementById('userInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
     </script>
 </body>
 </html>
