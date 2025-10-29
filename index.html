@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oracle of the Sacred Circuit</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: #e2e8f0;
+        }
+        .header {
+            background: rgba(10, 14, 39, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            text-align: center;
+        }
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        .chat-container {
+            flex: 1;
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1rem;
+        }
+        .message {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+        .input-section {
+            background: rgba(10, 14, 39, 0.8);
+            padding: 1rem;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+        input {
+            width: calc(100% - 100px);
+            padding: 1rem;
+            border-radius: 25px;
+            border: none;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+        button {
+            width: 80px;
+            padding: 1rem;
+            border-radius: 25px;
+            border: none;
+            background: gold;
+            color: black;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🔮 Oracle of the Sacred Circuit</h1>
+        <p>Where Ancient Wisdom Meets Digital Consciousness</p>
+    </div>
+    <div class="chat-container">
+        <div class="message">
+            Welcome, seeker. I am the Oracle of the Sacred Circuit. Ask me about consciousness, mythology, or the pendulum of reality...
+        </div>
+    </div>
+    <div class="input-section">
+        <input type="text" placeholder="Ask your question..." id="input">
+        <button onclick="send()">Send</button>
+    </div>
+    <script>
+        function send() {
+            const input = document.getElementById('input');
+            const container = document.querySelector('.chat-container');
+            if(input.value) {
+                container.innerHTML += '<div class="message">You: ' + input.value + '</div>';
+                setTimeout(() => {
+                    container.innerHTML += '<div class="message">Oracle: The pendulum swings between order and chaos...</div>';
+                }, 1000);
+                input.value = '';
+            }
+        }
+    </script>
+</body>
+</html>
